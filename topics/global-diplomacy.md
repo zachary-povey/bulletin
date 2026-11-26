@@ -3,6 +3,21 @@ title: Global diplomacy
 order: 6
 cadence_days: 1
 enabled: true
+feeds:
+  - https://feeds.bbci.co.uk/news/world/rss.xml
+  - https://www.theguardian.com/world/rss
+  - https://www.ft.com/world?format=rss
+  - https://rss.nytimes.com/services/xml/rss/nyt/World.xml
+  - https://www.lemonde.fr/en/rss/une.xml
+  - https://rss.dw.com/rdf/rss-en-world
+  - https://www.france24.com/en/rss
+  - https://www.politico.eu/feed/
+  - https://foreignpolicy.com/feed/
+  - https://kyivindependent.com/news-archive/rss/
+  - https://www.themoscowtimes.com/rss/news
+  - https://www.thehindu.com/news/international/feeder/default.rss
+  - https://www.scmp.com/rss/91/feed
+  - https://www.aljazeera.com/xml/rss/all.xml
 ---
 ## Scope
 

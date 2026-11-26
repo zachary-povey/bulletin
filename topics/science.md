@@ -3,6 +3,18 @@ title: Science
 order: 4
 cadence_days: 3
 enabled: true
+feeds:
+  - https://www.nature.com/nature.rss
+  - https://www.science.org/rss/news_current.xml
+  - https://www.sciencenews.org/feed
+  - https://www.scientificamerican.com/platform/syndication/rss/
+  - https://www.quantamagazine.org/feed/
+  - https://www.newscientist.com/feed/home/
+  - https://www.statnews.com/feed/
+  - https://feeds.arstechnica.com/arstechnica/science
+  - https://feeds.bbci.co.uk/news/science_and_environment/rss.xml
+  - https://www.theguardian.com/science/rss
+  - https://www.economist.com/science-and-technology/rss.xml
 ---
 ## Scope
 

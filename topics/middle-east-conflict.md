@@ -3,6 +3,17 @@ title: Middle East conflict
 order: 5
 cadence_days: 1
 enabled: true
+feeds:
+  - https://feeds.bbci.co.uk/news/world/middle_east/rss.xml
+  - https://www.aljazeera.com/xml/rss/all.xml
+  - https://www.theguardian.com/world/middleeast/rss
+  - https://www.ft.com/world/mideast?format=rss
+  - https://www.haaretz.com/srv/haaretz-latest-headlines
+  - https://www.jpost.com/rss/rssfeedsfrontpage.aspx
+  - https://www.thenationalnews.com/arc/outboundfeeds/rss/?outputType=xml
+  - https://www.france24.com/en/middle-east/rss
+  - https://www.economist.com/middle-east-and-africa/rss.xml
+  - https://news.un.org/feed/subscribe/en/news/region/middle-east/feed/rss.xml
 ---
 ## Scope
 

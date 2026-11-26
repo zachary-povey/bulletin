@@ -3,6 +3,16 @@ title: Spanish politics
 order: 2
 cadence_days: 1
 enabled: true
+feeds:
+  - https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/espana/portada
+  - https://e00-elmundo.uecdn.es/elmundo/rss/espana.xml
+  - https://www.eldiario.es/rss/
+  - https://www.abc.es/rss/2.0/espana/
+  - https://www.lavanguardia.com/rss/politica.xml
+  - https://rss.elconfidencial.com/espana/
+  - https://www.europapress.es/rss/rss.aspx?ch=00066
+  - https://www.20minutos.es/rss/nacional/
+  - https://www.politico.eu/feed/
 ---
 ## Scope
 

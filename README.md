@@ -7,7 +7,7 @@ to GitHub Pages.
 ## How it works
 
 1. **Topics** are Markdown briefs in [`topics/`](topics/README.md): scope, inclusions,
-   exclusions, preferred sources and an update cadence.
+   exclusions, preferred sources, RSS feeds to scan and an update cadence.
 2. The **`/update-bulletin`** skill ([`.claude/skills/update-bulletin/`](.claude/skills/update-bulletin/SKILL.md))
    picks the topics to refresh, runs one research agent per topic following
    [`research-method.md`](.claude/skills/update-bulletin/research-method.md), edits the results

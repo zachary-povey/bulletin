@@ -2,6 +2,7 @@
 """Bulletin tooling: topic selection, validation and static site build.
 
   python3 scripts/bulletin.py topics [due|all|<id> ...]   # JSON list of topics to update
+  python3 scripts/bulletin.py feeds <id> [--since YYYY-MM-DD]  # recent items from the topic's RSS feeds
   python3 scripts/bulletin.py check                       # validate topics/ and updates/
   python3 scripts/bulletin.py build [--out _site]         # render the static site
 """
@@ -52,6 +53,7 @@ def load_topics():
             "cadence_days": int(meta.get("cadence_days", 1)),
             "order": meta.get("order", 100),
             "enabled": bool(meta.get("enabled", True)),
+            "feeds": [str(f) for f in (meta.get("feeds") or [])],
             "brief": body,
             "updates": load_updates(path.stem),
         })
@@ -131,6 +133,84 @@ def cmd_check(_args):
     if problems:
         sys.exit("\n".join(problems))
     print(f"OK: {len(topics)} topics, {sum(len(t['updates']) for t in topics)} updates")
+
+
+# ----------------------------------------------------------------- feeds
+
+FEED_UA = "bulletin-feed-reader/1.0 (personal RSS reader)"
+
+
+def _text(el):
+    """Plain text of an XML element, with any embedded HTML stripped."""
+    if el is None:
+        return ""
+    raw = "".join(el.itertext())
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", html.unescape(raw)))).strip()
+
+
+def _parse_date(value):
+    from email.utils import parsedate_to_datetime
+    value = (value or "").strip()
+    if not value:
+        return None
+    try:
+        d = parsedate_to_datetime(value)
+    except (TypeError, ValueError):
+        try:
+            d = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+        except ValueError:
+            return None
+    return d if d.tzinfo else d.replace(tzinfo=dt.timezone.utc)
+
+
+def fetch_feed(url, timeout=20):
+    """Return a list of {title, link, summary, published} from an RSS or Atom feed."""
+    import urllib.request
+    import xml.etree.ElementTree as ET
+    req = urllib.request.Request(url, headers={"User-Agent": FEED_UA})
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        root = ET.fromstring(resp.read())
+    for el in root.iter():  # drop XML namespaces so RSS, RDF and Atom look alike
+        el.tag = el.tag.rsplit("}", 1)[-1]
+    items = []
+    for it in list(root.iter("item")) + list(root.iter("entry")):
+        link = _text(it.find("link"))
+        if not link:  # Atom: <link href="..."/>
+            links = it.findall("link")
+            alt = [l for l in links if l.get("rel", "alternate") == "alternate"] or links
+            link = alt[0].get("href", "") if alt else ""
+        summary = _text(it.find("description")) or _text(it.find("summary")) or _text(it.find("content"))
+        date = next((d for d in (_parse_date(_text(it.find(t)))
+                                 for t in ("pubDate", "published", "updated", "date")) if d), None)
+        items.append({"title": _text(it.find("title")), "link": link,
+                      "summary": summary[:400], "published": date})
+    return items
+
+
+def cmd_feeds(args):
+    from urllib.parse import urlparse
+    topic = next((t for t in load_topics() if t["id"] == args.topic), None)
+    if not topic:
+        sys.exit(f"Unknown topic: {args.topic}")
+    since = (dt.datetime.fromisoformat(args.since).replace(tzinfo=dt.timezone.utc)
+             if args.since else dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=2))
+    if not topic["feeds"]:
+        print(f"No feeds configured in topics/{topic['id']}.md")
+    for url in topic["feeds"]:
+        host = urlparse(url).netloc
+        try:
+            items = fetch_feed(url)
+        except Exception as e:  # one dead feed must not stop the rest
+            print(f"\n## {host}: FAILED ({type(e).__name__}: {e})\n   {url}")
+            continue
+        recent = [i for i in items if i["published"] is None or i["published"] >= since]
+        recent.sort(key=lambda i: i["published"] or since, reverse=True)
+        print(f"\n## {host}: {len(recent)} item(s) since {since.date()}")
+        for i in recent[:args.limit]:
+            when = i["published"].strftime("%Y-%m-%d %H:%M") if i["published"] else "undated"
+            print(f"- [{when}] {i['title']}\n  {i['link']}")
+            if i["summary"] and not args.titles:
+                print(f"  {i['summary']}")
 
 
 # ----------------------------------------------------------------- build
@@ -262,6 +342,12 @@ def main():
     t.add_argument("selection", nargs="*", help="due (default), all, or topic ids")
     t.add_argument("--today", help="override today's date (YYYY-MM-DD)")
     t.set_defaults(fn=cmd_topics)
+    f = sub.add_parser("feeds")
+    f.add_argument("topic")
+    f.add_argument("--since", help="only items published on or after YYYY-MM-DD (default: last 2 days)")
+    f.add_argument("--limit", type=int, default=25, help="max items per feed")
+    f.add_argument("--titles", action="store_true", help="omit summaries")
+    f.set_defaults(fn=cmd_feeds)
     sub.add_parser("check").set_defaults(fn=cmd_check)
     b = sub.add_parser("build")
     b.add_argument("--out", default=str(ROOT / "_site"))

@@ -3,6 +3,17 @@ title: UK politics
 order: 1
 cadence_days: 1
 enabled: true
+feeds:
+  - https://feeds.bbci.co.uk/news/politics/rss.xml
+  - https://www.theguardian.com/politics/rss
+  - https://www.ft.com/uk-politics?format=rss
+  - https://feeds.skynews.com/feeds/rss/politics.xml
+  - https://www.economist.com/britain/rss.xml
+  - https://www.politicshome.com/news/rss
+  - https://conservativehome.com/feed/
+  - https://unherd.com/feed/
+  - https://www.cityam.com/feed/
+  - https://www.instituteforgovernment.org.uk/rss.xml
 ---
 ## Scope
 

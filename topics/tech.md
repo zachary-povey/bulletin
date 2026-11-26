@@ -3,6 +3,17 @@ title: Technology
 order: 3
 cadence_days: 1
 enabled: true
+feeds:
+  - https://feeds.arstechnica.com/arstechnica/index
+  - https://www.theregister.com/headlines.atom
+  - https://www.theverge.com/rss/index.xml
+  - https://techcrunch.com/feed/
+  - https://www.ft.com/technology?format=rss
+  - https://feeds.bbci.co.uk/news/technology/rss.xml
+  - https://www.theguardian.com/technology/rss
+  - https://www.wired.com/feed/rss
+  - https://www.technologyreview.com/feed/
+  - https://hnrss.org/frontpage
 ---
 ## Scope
 
