@@ -7,7 +7,7 @@ update that is right is better than a longer one with a guess in it.
 ## 1. Gather widely
 
 - Start with the topic's RSS feeds:
-  `python3 scripts/bulletin.py feeds <topic-id> --since <covers_from>` prints recent
+  `uv run scripts/bulletin.py feeds <topic-id> --since <covers_from>` prints recent
   headlines, summaries and links from each configured outlet. Use it to build the story
   list and to see which outlets are covering what, and how. Feeds often span more than the
   topic (a whole front page), so apply the brief's scope and exclusions.

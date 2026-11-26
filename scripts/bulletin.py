@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Bulletin tooling: topic selection, validation and static site build.
 
-  python3 scripts/bulletin.py topics [due|all|<id> ...]   # JSON list of topics to update
-  python3 scripts/bulletin.py feeds <id> [--since YYYY-MM-DD]  # recent items from the topic's RSS feeds
-  python3 scripts/bulletin.py check                       # validate topics/ and updates/
-  python3 scripts/bulletin.py build [--out _site]         # render the static site
+  uv run scripts/bulletin.py topics [due|all|<id> ...]   # JSON list of topics to update
+  uv run scripts/bulletin.py feeds <id> [--since YYYY-MM-DD]  # recent items from the topic's RSS feeds
+  uv run scripts/bulletin.py check                       # validate topics/ and updates/
+  uv run scripts/bulletin.py build [--out _site]         # render the static site
 """
 import argparse
 import datetime as dt

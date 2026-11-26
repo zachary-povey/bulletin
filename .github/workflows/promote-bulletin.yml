@@ -36,11 +36,13 @@ jobs:
           else
             echo "ok=true" >> "$GITHUB_OUTPUT"
           fi
+      - uses: astral-sh/setup-uv@v10
+        if: steps.guard.outputs.ok == 'true'
+        with:
+          python-version: "3.12"
       - name: Validate
         if: steps.guard.outputs.ok == 'true'
-        run: |
-          pip install -r requirements.txt
-          python3 scripts/bulletin.py check
+        run: uv run --locked scripts/bulletin.py check
       - name: Merge into main
         if: steps.guard.outputs.ok == 'true'
         run: |

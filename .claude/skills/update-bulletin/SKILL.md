@@ -14,8 +14,7 @@ Arguments: `$ARGUMENTS` (empty means `due`).
 ## 1. Select topics
 
 ```bash
-pip install -q -r requirements.txt
-python3 scripts/bulletin.py topics $ARGUMENTS
+uv run scripts/bulletin.py topics $ARGUMENTS
 ```
 
 This prints a JSON list; each entry gives the topic file, the output file to write, the
@@ -67,8 +66,8 @@ topic out of this run rather than publishing a weak update, and mention it in yo
 ## 5. Validate and build
 
 ```bash
-python3 scripts/bulletin.py check
-python3 scripts/bulletin.py build
+uv run scripts/bulletin.py check
+uv run scripts/bulletin.py build
 ```
 
 Both must succeed. `_site/` is git-ignored; it is only built here as a check.

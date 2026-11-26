@@ -32,8 +32,7 @@ with explicit topic ids for other rhythms.
 ## Local preview
 
 ```bash
-pip install -r requirements.txt
-python3 scripts/bulletin.py build && python3 -m http.server -d _site
+uv run scripts/bulletin.py build && uv run python -m http.server -d _site
 ```
 
 ## One-time GitHub setup

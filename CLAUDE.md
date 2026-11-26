@@ -11,4 +11,5 @@ A personal news bulletin published as a static site on GitHub Pages.
   `promote-bulletin.yml` merges `claude/**` pushes that touch only `updates/**` into `main`.
 
 To publish news, run `/update-bulletin [due|all|<topic-id> ...]`. Do not hand-edit files in
-`updates/` except to correct errors. Requires `pip install -r requirements.txt`.
+`updates/` except to correct errors. Dependencies are managed with uv (`pyproject.toml`,
+`uv.lock`): run the script with `uv run scripts/bulletin.py <command>`.

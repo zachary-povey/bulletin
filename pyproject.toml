@@ -1,0 +1,9 @@
+[project]
+name = "bulletin"
+version = "0.1.0"
+description = "A personal news bulletin published as a static site on GitHub Pages."
+requires-python = ">=3.12"
+dependencies = [
+    "markdown>=3.5",
+    "pyyaml>=6",
+]

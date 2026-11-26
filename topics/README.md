@@ -20,5 +20,5 @@ delete it or set `enabled: false`.
 
 Feeds are how the researcher discovers stories and sees how outlets that block automated
 article access (Guardian, FT, El País, Economist…) are covering them. Preview a topic's
-feeds with `python3 scripts/bulletin.py feeds <topic-id> --since YYYY-MM-DD`. A feed that
+feeds with `uv run scripts/bulletin.py feeds <topic-id> --since YYYY-MM-DD`. A feed that
 fails is reported and skipped.
