@@ -22,7 +22,16 @@ This prints a JSON list; each entry gives the topic file, the output file to wri
 previous update (if any) and `covers_from`, the start of the period to research. If the
 list is empty, nothing is due: say so and stop without committing.
 
-## 2. Research each topic in parallel
+## 2. Preflight: can articles be opened?
+
+The research is only publishable if full articles can be read, not just search snippets.
+Before spending effort, fetch two or three article pages from different news sites (for
+example a BBC, Guardian and AP story from a quick search). If none can be opened because
+the network policy blocks the hosts, stop here: publish nothing, and report that the cloud
+environment's network access needs to allow news sites (environment settings → Network
+access). Never publish an update built from search-result summaries alone.
+
+## 3. Research each topic in parallel
 
 Launch one subagent per selected topic, all in a single message so they run concurrently
 (general-purpose agents; they need web search and fetch). Give each subagent this prompt,
@@ -41,7 +50,7 @@ filled in from the JSON entry:
 If subagents are unavailable, do the research yourself, one topic at a time, following
 `research-method.md`.
 
-## 3. Edit
+## 4. Edit
 
 Read every file that was written. You are the last check before publication:
 
@@ -52,10 +61,10 @@ Read every file that was written. You are the last check before publication:
 - Spot-check two or three key claims per topic by opening the cited source. Fix or delete
   anything the source does not support. Never leave a claim you could not trace to a source.
 
-If a subagent failed or wrote nothing usable, retry it once; if it still fails, leave that
+If a subagent failed, could not open its sources, or wrote nothing usable, retry it once; if it still fails, leave that
 topic out of this run rather than publishing a weak update, and mention it in your final report.
 
-## 4. Validate and build
+## 5. Validate and build
 
 ```bash
 python3 scripts/bulletin.py check
@@ -64,7 +73,7 @@ python3 scripts/bulletin.py build
 
 Both must succeed. `_site/` is git-ignored; it is only built here as a check.
 
-## 5. Publish
+## 6. Publish
 
 Commit only files under `updates/` with a message like
 `Bulletin 2026-11-26: uk-politics, tech`.
@@ -82,7 +91,7 @@ branch), push to the branch this session is allowed to use instead. The
 `promote-bulletin` workflow merges any `claude/**` push that changes only `updates/**`
 into `main` and triggers the deploy. Do not open a pull request.
 
-## 6. Report
+## 7. Report
 
 Finish with a short report: which topics were updated, each headline, anything left out
 or unverifiable, and whether the push went to `main` directly or via the promote workflow.
