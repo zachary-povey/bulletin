@@ -11,7 +11,9 @@ to GitHub Pages.
 2. The **`/update-bulletin`** skill ([`.claude/skills/update-bulletin/`](.claude/skills/update-bulletin/SKILL.md))
    picks the topics to refresh, runs one research agent per topic following
    [`research-method.md`](.claude/skills/update-bulletin/research-method.md), edits the results
-   and commits them under `updates/<topic>/<date>.md`.
+   and commits them under `updates/<topic>/<date>.md`. The agents read articles with
+   `uv run scripts/fetch_page.py <url>`, which prints a page as Markdown and retries with
+   headless Chrome when a site refuses a plain request.
 3. A push to `main` runs [`deploy.yml`](.github/workflows/deploy.yml), which renders the site
    with `scripts/bulletin.py build` and deploys it to GitHub Pages.
 

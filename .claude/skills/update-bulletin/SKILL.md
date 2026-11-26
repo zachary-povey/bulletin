@@ -25,7 +25,10 @@ list is empty, nothing is due: say so and stop without committing.
 
 The research is only publishable if full articles can be read, not just search snippets.
 Before spending effort, fetch two or three article pages from different news sites (for
-example a BBC, Guardian and AP story from a quick search). If none can be opened because
+example a BBC, Guardian and AP story from a quick search) with
+`uv run scripts/fetch_page.py <url>`, which prints the page as Markdown. Use this script
+whenever you open an article yourself, including the spot-checks in step 4; fall back to the
+fetch tool only if the script fails on a page. If none can be opened because
 the network policy blocks the hosts, stop here: publish nothing, and report that the cloud
 environment's network access needs to allow news sites (environment settings → Network
 access). Never publish an update built from search-result summaries alone.
@@ -33,7 +36,7 @@ access). Never publish an update built from search-result summaries alone.
 ## 3. Research each topic in parallel
 
 Launch one subagent per selected topic, all in a single message so they run concurrently
-(general-purpose agents; they need web search and fetch). Give each subagent this prompt,
+(general-purpose agents; they need web search, Bash for `scripts/fetch_page.py`, and fetch). Give each subagent this prompt,
 filled in from the JSON entry:
 
 > You are a news researcher writing one section of a personal news bulletin.
@@ -41,10 +44,14 @@ filled in from the JSON entry:
 > 1. Read `.claude/skills/update-bulletin/research-method.md` and follow it exactly.
 > 2. Read the topic brief `{topic_file}`; it defines scope, exclusions and preferred sources.
 > 3. Previous update: `{previous_update}` (read it if not null, for continuity and to avoid repeating old news).
-> 4. Research news for **{title}** from {covers_from} to {date} (today is {date}).
+> 4. Research news for **{title}** from {covers_from} to {date} (today is {date}). Open article
+>    pages with `uv run scripts/fetch_page.py <url>` in preference to the fetch tool.
 > 5. Write the update to `{output_file}` in the format given in research-method.md.
-> Do not edit any other file and do not run git. Reply with a three-line summary: the headline,
-> the number of stories and distinct sources, and anything you could not verify.
+> Do not edit any other file and do not run git. Reply with a four-line summary: the headline,
+> the number of stories and distinct sources, anything you could not verify, and a fetch
+> tally: how many pages `fetch_page.py` opened, which outlets it failed on (and with what
+> error), and how many of those the fetch tool then opened. The tally goes in your reply
+> only, never in the update file.
 
 If subagents are unavailable, do the research yourself, one topic at a time, following
 `research-method.md`.
@@ -94,3 +101,7 @@ into `main` and triggers the deploy. Do not open a pull request.
 
 Finish with a short report: which topics were updated, each headline, anything left out
 or unverifiable, and whether the push went to `main` directly or via the promote workflow.
+Include a fetch tally combined across the topics and your own preflight and spot-checks:
+pages opened by `fetch_page.py`, the outlets it failed on and the error, and how many of
+those the fetch tool recovered. This tally is for the session report only; do not write it
+into any file under `updates/`.

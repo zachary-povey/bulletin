@@ -6,7 +6,6 @@ requires-python = ">=3.12"
 dependencies = [
     "markdown>=3.5",
     "pyyaml>=6",
-    "chromedriver-py>=136,<137",
     "selenium>4.25.0,<5",
     "requests>=2.34.2,<3",
     "html-to-markdown>=3.23.4",

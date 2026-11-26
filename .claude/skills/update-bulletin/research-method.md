@@ -14,16 +14,22 @@ update that is right is better than a longer one with a guess in it.
 - Then run many searches (at least 8-10 per topic): broad ("<topic> news <date>"), then narrower ones
   for each story you find, then searches aimed at outlets with a different perspective or
   country from the ones you already have.
-- Open and read the articles; never rely on a search-result snippet for a fact.
+- Open and read the articles; never rely on a search-result snippet for a fact. To open an
+  article, front page or section page, use `uv run scripts/fetch_page.py <url>` in preference
+  to the fetch tool: it prints the page as Markdown (far smaller than the HTML, and the full
+  text rather than a summary) and retries with a headless browser when a site refuses a plain
+  request, so it more often returns the whole article. If the conversion to Markdown fails it
+  prints the raw HTML instead.
 - Aim for 10+ distinct outlets per topic overall and include primary sources wherever they
   exist: official statements, legislation, court documents, data releases, papers, filings,
   transcripts. Use non-English sources where the topic brief calls for them.
 - If web search returns little dated material, go to the outlets' own front and section pages
   (politics, world, technology) and work from the headlines there.
-- If the fetch tool cannot open a page, fall back to `curl -sL -A 'Mozilla/5.0' <url>` and read
-  the text. Some sites (wire services, paywalled papers) refuse automated requests with
-  401/403: do not hammer them; find another reputable outlet's report of the same story and
-  list the unreachable outlets in Coverage notes.
+- If `fetch_page.py` exits with an error or returns a block page (a few hundred bytes titled
+  "Just a moment...", "Security Verification" or a "Device Check" link) or a truncated article, try
+  the fetch tool once. Some sites (wire services, paywalled papers) refuse automated requests
+  with 401/403 whatever the method: do not hammer them; find another reputable outlet's
+  report of the same story and list the unreachable outlets in Coverage notes.
 - A feed item is not an opened article. If the article itself cannot be opened, you may use
   only what the feed's headline and summary say, attribute it to the outlet, and mark the
   link `(feed summary only)`. Such an item counts as that outlet's framing or as a pointer;

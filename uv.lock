@@ -16,7 +16,6 @@ name = "bulletin"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
-    { name = "chromedriver-py" },
     { name = "html-to-markdown" },
     { name = "markdown" },
     { name = "pyyaml" },
@@ -26,7 +25,6 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "chromedriver-py", specifier = ">=136,<137" },
     { name = "html-to-markdown", specifier = ">=3.23.4" },
     { name = "markdown", specifier = ">=3.5" },
     { name = "pyyaml", specifier = ">=6" },
@@ -207,15 +205,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/a3/a5/cc188879ab8e8a36d295f888335f0a2875e39bcdacc6fe3207427c14036f/charset_normalizer-3.5.3-cp37-abi3-win_amd64.whl", hash = "sha256:a5a7e0326566759f9a7bc44f4b9a179cc40a297e09e759b0bc7c848c06347527", size = 200667, upload-time = "2026-11-23T02:46:27.221Z" },
     { url = "https://files.pythonhosted.org/packages/d5/a3/4a6047c40414f170ad09a6d44c1a0663914924619304817c2e33d19fae75/charset_normalizer-3.5.3-cp37-abi3-win_arm64.whl", hash = "sha256:e4f85c34f9be32ec5568a0668fb8bc029d3e729285fb8fccc38695e185379a9b", size = 290628, upload-time = "2026-11-23T02:46:29.06Z" },
     { url = "https://files.pythonhosted.org/packages/d2/0d/07ab8eb9b7015274353eac2add4067bde1ab1b51912bbae505392905eedd/charset_normalizer-3.5.3-py3-none-any.whl", hash = "sha256:96e268b0cbda016ac519513294fcd17032264085b600abaac58b93049477e132", size = 68878, upload-time = "2026-11-23T02:46:50.665Z" },
-]
-
-[[package]]
-name = "chromedriver-py"
-version = "136.0.7103.113"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/7c/07/6519ad0329c9bdf85f954c11dbd797fa5d3796b33de74d0cca89f2750c54/chromedriver_py-136.0.7103.113.tar.gz", hash = "sha256:b6687d1d7d7cedb5a90f6a3c5768816ad832aed80d6272ed47d34f899c64d86a", size = 43152587, upload-time = "2025-05-22T00:10:17.035Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/20/4f/1f307850ceebb73105f514dff5f3e1d34b01d6fabfc5b238d5b0d6356f8c/chromedriver_py-136.0.7103.113-py3-none-any.whl", hash = "sha256:abe4a2a3ece8bd858b9bea7e32cfa5c26ebcbda84de91cc137e9906c10d7616a", size = 43243775, upload-time = "2025-05-22T00:10:13.438Z" },
 ]
 
 [[package]]
