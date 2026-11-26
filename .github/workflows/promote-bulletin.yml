@@ -1,0 +1,57 @@
+name: Promote bulletin
+
+# Cloud Claude Code sessions can usually push only to a claude/* branch. When such a
+# push changes nothing but updates/**, merge it into main and trigger the deploy.
+
+on:
+  push:
+    branches: ["claude/**"]
+    paths: ["updates/**"]
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: promote-bulletin
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check that only updates/ changed relative to main
+        id: guard
+        run: |
+          git fetch origin main
+          changed=$(git diff --name-only origin/main...HEAD)
+          echo "$changed"
+          if [ -z "$changed" ]; then
+            echo "Nothing to promote."; echo "ok=false" >> "$GITHUB_OUTPUT"
+          elif echo "$changed" | grep -qv '^updates/'; then
+            echo "Branch changes files outside updates/; not promoting."; echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Validate
+        if: steps.guard.outputs.ok == 'true'
+        run: |
+          pip install -r requirements.txt
+          python3 scripts/bulletin.py check
+      - name: Merge into main
+        if: steps.guard.outputs.ok == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          branch_sha=$(git rev-parse HEAD)
+          git checkout -B main origin/main
+          git merge --no-edit "$branch_sha"
+          git push origin main
+      - name: Trigger deploy
+        if: steps.guard.outputs.ok == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main
