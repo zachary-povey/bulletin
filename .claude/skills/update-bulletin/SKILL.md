@@ -47,6 +47,10 @@ filled in from the JSON entry:
 > 4. Research news for **{title}** from {covers_from} to {date} (today is {date}). Open article
 >    pages with `uv run scripts/fetch_page.py <url>` in preference to the fetch tool.
 > 5. Write the update to `{output_file}` in the format given in research-method.md.
+> Other researchers run at the same time and share your scratch space, so save every
+> intermediate file (fetched pages, `feeds` output, notes) only inside a directory of your own:
+> create it once with `mkdir -p "${TMPDIR:-/tmp}/bulletin-{id}"` (or a `{id}` subdirectory of
+> your scratchpad, if you have one) and never write intermediate files anywhere else.
 > Do not edit any other file and do not run git. Reply with a four-line summary: the headline,
 > the number of stories and distinct sources, anything you could not verify, and a fetch
 > tally: how many pages `fetch_page.py` opened, which outlets it failed on (and with what
